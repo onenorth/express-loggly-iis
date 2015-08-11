@@ -1,0 +1,27 @@
+{
+  "name": "express-middleware-loggly",
+  "version": "1.0.0",
+  "description": "Express middleware to log messages to Loggly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/onenorth/express-middleware-loggly.git"
+  },
+  "keywords": [
+    "Loggly",
+    "Express",
+    "middleware",
+    "Logging"
+  ],
+  "author": "Chris Wigley",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "finished": "^1.2.2",
+    "loggly": "^1.0.8",
+    "user-agent": "^1.0.4"
+  }
+}
