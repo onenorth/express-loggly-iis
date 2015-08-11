@@ -8,13 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com/onenorth/express-middleware-loggly.git"
+    "url": "git@github.com/onenorth/express-loggly-iis.git"
   },
   "keywords": [
     "Loggly",
     "Express",
     "middleware",
-    "Logging"
+    "Logging",
+    "IIS"
   ],
   "author": "Chris Wigley",
   "license": "MIT",
