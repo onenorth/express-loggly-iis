@@ -1,5 +1,5 @@
 {
-  "name": "express-middleware-loggly",
+  "name": "express-loggly-iis",
   "version": "1.0.0",
   "description": "Express middleware to log messages to Loggly",
   "main": "index.js",
