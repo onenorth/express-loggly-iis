@@ -5,7 +5,7 @@ var os = require('os');
 var debug = require('debug');
 var loggly = require('loggly');
 var onFinished = require('finished');
-var useragent = require('user-agent');
+var useragent = require('useragent');
 
 exports = module.exports = function (options) {
   options = options || {};
@@ -18,6 +18,7 @@ exports = module.exports = function (options) {
   var pid = process.pid.toString();
 
   var logFormat = function (req, res) {
+
     var time = getTime(req, res);
     var content = getResponseHeaderFieldValue(req, res, 'content-length');
     var level;
@@ -30,6 +31,8 @@ exports = module.exports = function (options) {
       level = 'INFO';
     }
 
+    console.log('REQUEST:\r\n', req);
+
     var recordObj = {
       'date': new Date().toUTCString(),
       'level': level,
@@ -40,22 +43,23 @@ exports = module.exports = function (options) {
       },
 
       'request': {
+        'host': req.headers['host'],
         'method': req.method,
         'protocol': req.protocol,
         'version': req.httpVersionMajor + '.' + req.httpVersionMinor,
         'hostname': req.hostname,
         'path': req.path,
-        'query': Object.keys(req.query).length > 0 ? req.query : '',
+        'query': req.query ? (Object.keys(req.query).length > 0 ? req.query : '') : '',
         'session': req.sessionID,
         'body': req.body,
         'remote-address': req.headers['x-forwarded-for']
-                          || req.conection.remoteAddress
+                          || req.connection.remoteAddress
                           || (req.socket && req.socket.remoteAddress)
-                          || req.socket.socket && req.socket.socket.remoteAddress)
+                          || (req.socket.socket && req.socket.socket.remoteAddress)
       },
       'response': {
         'status': res._headers ? res.statusCode.toString() : '',
-        'content-length': content ? content + ' bytes' : '',
+        'content-length': content ? content + '-bytes' : '',
         'response-time': time + ' ms'
       },
 
@@ -67,11 +71,13 @@ exports = module.exports = function (options) {
     return recordObj;
   };
 
-  return function logger (req, res, next) {
+  return function logger (next, req, res) {
+
     req._startAt = process.hrtime();
 
     function logRequest () {
       var record = logFormat(req, res);
+      record = JSON.stringify(record);
 
       client.log(record, config.tags, function (err, result) {
         if (err) {
