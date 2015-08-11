@@ -31,8 +31,6 @@ exports = module.exports = function (options) {
       level = 'INFO';
     }
 
-    console.log('REQUEST:\r\n', req);
-
     var recordObj = {
       'date': new Date().toUTCString(),
       'level': level,
