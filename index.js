@@ -86,6 +86,7 @@ function logglyLogger (format, options) {
     res._startTime = undefined;
 
     _recordStartTime.call(req);
+    console.log('req startAt', req._startAt);
 
     function logRequest () {
       if (skip !== false && skip(req, res)) {
@@ -126,9 +127,6 @@ function logglyLogger (format, options) {
     if (immediate) {
       logRequest();
     } else {
-      if (res._header) {
-        _recordStartTime.call(res);
-      }
       // log when response is finished
       onFinished(res, logRequest);
     }
@@ -148,7 +146,7 @@ logglyLogger.format('combined', [
 
 // logglyLogger.format('iis', 'severity:level|s-port:port|cs-Referer:referrer|cs-method:method|s-computername:computer-name|sc-status:status|time-taken:response-time|cs-version:http-version|EventTime:date-time[web]|cs-User-Agent:user-agent|cs-bytes:req[content-length]|cs-host:host|date:date-time[date]|c-ip:remote-addr|s-ip:server-ip|sc-bytes:res[content-length]|cs-uri-stem:url|cs-query:query|time:date-time[time]|host:hostname');
 logglyLogger.format('iis', [
-    'severity:level', 's-port:port', 'cs-Referer:referrer', 'cs-method:method',
+    's-port:port', 'cs-Referer:referrer', 'cs-method:method',
     's-computername:computer-name', 'sc-status:status', 'time-taken:response-time',
     'cs-version:http-version', 'EventTime:date-time[web]', 'cs-User-Agent:user-agent',
     'cs-bytes:req[content-length]', 'cs-host:host', 'date:date-time[date]',
@@ -279,7 +277,7 @@ logglyLogger.token('response-time', function getResponseTimeToken(req, res, labe
   var diff = process.hrtime(req._startAt);
   var ms = diff[0] * 1e3 + diff[1] * 1e-6;
 
-  retval = ms.toFixed(3);
+  retval = ms.toFixed(3) * 1000;
 
   return (label && label.length > 0) ? (label + '=' + retval) : retval;
 });
@@ -491,5 +489,5 @@ function _getIpAddress(req) {
  */
 function _recordStartTime() {
   this._startAt = process.hrtime();
-  this._startTime = new Date();
+  this._startTime = Date.now();
 }
