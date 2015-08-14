@@ -86,7 +86,6 @@ function logglyLogger (format, options) {
     res._startTime = undefined;
 
     _recordStartTime.call(req);
-    console.log('req startAt', req._startAt);
 
     function logRequest () {
       if (skip !== false && skip(req, res)) {
@@ -95,6 +94,8 @@ function logglyLogger (format, options) {
       }
 
       var line = formatLine(logglyLogger, req, res);
+      var content = _getLength(req, res, 'content-length');
+      console.log('content length: ', content);
 
       if (line === null) {
         debug('skipped line');
@@ -148,7 +149,7 @@ logglyLogger.format('combined', [
 logglyLogger.format('iis', [
     's-port:port', 'cs-Referer:referrer', 'cs-method:method',
     's-computername:computer-name', 'sc-status:status', 'time-taken:response-time',
-    'cs-version:http-version', 'EventTime:date-time[web]', 'cs-User-Agent:user-agent',
+    'EventTime:date-time[web]', 'cs-User-Agent:user-agent',
     'cs-bytes:req[content-length]', 'cs-host:host', 'date:date-time[date]',
     'c-ip:remote-addr', 's-ip:server-ip', 'sc-bytes:res[content-length]',
     'cs-uri-stem:url', 'cs-query:query', 'time:date-time[time]', 'host:hostname'
@@ -203,9 +204,11 @@ logglyLogger.token('url', function getUrlToken(req, res, label) {
 
 logglyLogger.token('port', function getHostToken(req, res, label) {
   var retval = req.headers['host'] || '-';
+  var port;
 
   if (retval !== '-') {
-    retval = retval.split(':')[1];
+    port = retval.split(':')[1];
+    retval = (port !== undefined) ? port : '-';
   }
   return (label && label.length > 0) ? (label + '=' + retval) : retval;
 });
@@ -359,7 +362,7 @@ logglyLogger.token('res', function getResponseToken(req, res, label, field) {
 
   if (res._header) {
     header = res._headers[field.toLowerCase()];
-
+    console.log('res._headers, field: ' + field, header);
     if (header !== undefined) {
       retval = Array.isArray(header) ? header.join(', ') : header;
     }
@@ -481,6 +484,19 @@ function _getIpAddress(req) {
                 || (req.socket && req.socket.remoteAddress)
                 || (req.socket.socket && req.socket.socket.remoteAddress)
                 || '-';
+}
+
+/**
+ * Get the response length
+ *
+ * @param {object} req
+ * @param {object} res
+ * @param {string} field
+ *
+ * @return {string}
+ */
+function _getLength (req, res, field) {
+  return (res._headers || {})[field.toLowerCase()];
 }
 
 /**
