@@ -94,8 +94,6 @@ function logglyLogger (format, options) {
       }
 
       var line = formatLine(logglyLogger, req, res);
-      var content = _getLength(req, res, 'content-length');
-      console.log('content length: ', content);
 
       if (line === null) {
         debug('skipped line');
@@ -362,7 +360,6 @@ logglyLogger.token('res', function getResponseToken(req, res, label, field) {
 
   if (res._header) {
     header = res._headers[field.toLowerCase()];
-    console.log('res._headers, field: ' + field, header);
     if (header !== undefined) {
       retval = Array.isArray(header) ? header.join(', ') : header;
     }
@@ -484,19 +481,6 @@ function _getIpAddress(req) {
                 || (req.socket && req.socket.remoteAddress)
                 || (req.socket.socket && req.socket.socket.remoteAddress)
                 || '-';
-}
-
-/**
- * Get the response length
- *
- * @param {object} req
- * @param {object} res
- * @param {string} field
- *
- * @return {string}
- */
-function _getLength (req, res, field) {
-  return (res._headers || {})[field.toLowerCase()];
 }
 
 /**
