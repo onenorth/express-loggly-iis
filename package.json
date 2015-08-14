@@ -22,7 +22,8 @@
   "dependencies": {
     "debug": "^2.2.0",
     "depd": "^1.0.1",
+    "finished": "^1.2.2",
     "loggly": "^1.0.8",
-    "finished": "^1.2.2"
+    "timespan": "^2.3.0"
   }
 }
