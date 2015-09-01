@@ -14,6 +14,7 @@ module.exports.token = token;
  * @private
  */
 var os = require('os');
+var chalk = require('chalk');
 var debug = require('debug')('logglyLogger');;
 var deprecate = require('depd')('logglyLogger');
 var loggly = require('loggly');
@@ -39,15 +40,21 @@ var CLF_MONTH = [
 function logglyLogger (format, options) {
   var fmt = format;
   var opts = options || {};
-
-  console.log(opts);
+  var noop = function() {};
 
   if (Object.keys(opts).length === 0
     || !opts.loggly
     || Object.keys(opts.loggly).length === 0
     || opts.loggly.subdomain === undefined
     || opts.loggly.token === undefined) {
-    throw new TypeError('You must supply at least a Loggly subdomain and user token.');
+
+    if (process.env.NODE_ENV === 'production') {
+      throw new TypeError('You must supply at least a Loggly subdomain and user token.');
+    }
+    else {
+      console.warn(chalk.yellow.bold('WARNING: Loggly subdomain and/or user token not supplied.'));
+      return noop;
+    }
   }
 
   if (format && typeof format === 'object') {
