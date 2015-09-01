@@ -40,6 +40,16 @@ function logglyLogger (format, options) {
   var fmt = format;
   var opts = options || {};
 
+  console.log(opts);
+
+  if (Object.keys(opts).length === 0
+    || !opts.loggly
+    || Object.keys(opts.loggly).length === 0
+    || opts.loggly.subdomain === undefined
+    || opts.loggly.token === undefined) {
+    throw new TypeError('You must supply at least a Loggly subdomain and user token.');
+  }
+
   if (format && typeof format === 'object') {
     opts = format;
     fmt = opts.format || 'iis';
@@ -60,7 +70,9 @@ function logglyLogger (format, options) {
 
   // loggly configuration
   var defaultTags = ['iis'];
+
   var config = opts.loggly;
+
   var tags = defaultTags.concat(config.tags || '');
 
   // create the loggly client
