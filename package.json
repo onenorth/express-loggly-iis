@@ -1,8 +1,8 @@
 {
   "name": "express-loggly-iis",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Express middleware to log messages to Loggly",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,11 +20,6 @@
   "author": "Chris Wigley",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^1.1.1",
-    "debug": "^2.2.0",
-    "depd": "^1.0.1",
-    "finished": "^1.2.2",
-    "loggly": "^1.0.8",
-    "timespan": "^2.3.0"
+    "axios": "^0.17.1"
   }
 }
