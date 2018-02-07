@@ -45,4 +45,4 @@ The subdomain associated with Loggly.
 __`LOGGLY_TAGS`__ (Defaults to `iis`)
 > Example: `iis,onenorth`
 
-A comma-separated list of tags you want to send to 
+A comma-separated list of tags you want to use for logging. 
