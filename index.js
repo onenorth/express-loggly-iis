@@ -35,7 +35,10 @@ const json = ({ req, res, start, now }) => ({
   'cs-uri-stem': req.path,
   'date': date(start),
   'time': time(start),
-  'time-taken': now - start
+  'time-taken': now - start,
+  'cs-User-Agent': req.headers['User-Agent'],
+  'cs-status': res.statusCode,
+  'cs-Referer': req.headers['Referer']
 })
 
 const onSuccess = (json) => ({ data }) => {
