@@ -17,6 +17,9 @@ const expressLogglyIIS = require('express-loggly-iis')
 
 const app = express()
 
+// !!! Important for logging IP addresses on Heroku !!!
+app.set('trust proxy', true)
+
 app.use(expressLogglyIIS)
 
 app.get('/', (req, res) => res.send('home'))
@@ -37,12 +40,18 @@ __`LOGGLY_TOKEN`__ (Required)
 
 The __customer token__ generated from Loggly. Find out more about how to create a token [here](https://www.loggly.com/docs/customer-token-authentication-token/).
 
+
+__`LOGGLY_TAGS`__ (Required)
+> Example: `iis,onenorth`
+
+A comma-separated list of tags you want to use for filtering logs.
+
+Please add in your site's tag, along with `iis`.
+
+
 __`LOGGLY_SUBDOMAIN`__ (Defaults to `logs-01`)
 > Example: `logs-01`
 
-The subdomain associated with Loggly.
+The subdomain associated with Loggly (you can leave this alone).
 
-__`LOGGLY_TAGS`__ (Defaults to `iis`)
-> Example: `iis,onenorth`
-
-A comma-separated list of tags you want to use for logging. 
+The subdomain option is only here in case hosting decides to change their standard endpoint.
