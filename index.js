@@ -36,9 +36,9 @@ const json = ({ req, res, start, now }) => ({
   'date': date(start),
   'time': time(start),
   'time-taken': now - start,
-  'cs-User-Agent': req.headers['User-Agent'],
+  'cs-User-Agent': req.get('User-Agent'),
   'cs-status': res.statusCode,
-  'cs-Referer': req.headers['Referer']
+  'cs-Referer': req.get('Referer')
 })
 
 const onSuccess = (json) => ({ data }) => {
