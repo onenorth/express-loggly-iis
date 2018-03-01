@@ -6,7 +6,7 @@ A module that sends logging information to your Loggly instance.
 
 Here's how to set up Loggly IIS with your existing Express server:
 
-1. Run: `npm install --save git://github.com/onenorth/express-loggly-iis.git#2.0.2`
+1. Run: `npm install --save git://github.com/onenorth/express-loggly-iis.git#2.0.3`
 
 1. Add `app.use(expressLogglyIIS)` __before all__ of your routes.
 
