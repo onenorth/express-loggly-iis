@@ -1,6 +1,6 @@
 {
   "name": "express-loggly-iis",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "Express middleware to log messages to Loggly",
   "main": "dist/index.js",
   "scripts": {
