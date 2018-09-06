@@ -1,4 +1,5 @@
 const axios = require('axios')
+const parseUrl = require('parseurl')
 
 const trimTags = (tags) =>
   tags.split(',').map(a => a.trim()).join(',')
@@ -33,6 +34,7 @@ const json = ({ req, res, start, now }) => ({
   'cs-host': req.hostname,
   'cs-method': req.method,
   'cs-uri-stem': req.path,
+  'cs-uri-query': parseUrl(req).query,
   'date': date(start),
   'time': time(start),
   'time-taken': now - start,

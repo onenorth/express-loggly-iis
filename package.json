@@ -20,7 +20,8 @@
   "author": "Chris Wigley",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.17.1"
+    "axios": "^0.17.1",
+    "parseurl": "^1.3.2"
   },
   "devDependencies": {}
 }
