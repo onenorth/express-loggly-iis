@@ -44,7 +44,7 @@ const json = ({ req, res, start, now }) => ({
 })
 
 const onSuccess = (json) => ({ data }) => {
-  console.info('LOGGLY: Data sent successfully')
+  // console.info('LOGGLY: Data sent successfully')
 }
 
 const onFailure = (json) => ({ data }) => {
